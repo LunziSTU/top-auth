@@ -1,0 +1,26 @@
+{
+    "name": "lunzi/top-auth",
+    "description": "ThinkPHP 6 用户认证扩展包",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "LunziSTU",
+            "email": "service@newphper.com"
+        }
+    ],
+    "require": {
+        "topthink/framework": "^6.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lunzi\\TopAuth\\": "src"
+        }
+    },
+    "extra": {
+        "think":{
+            "services":[
+                "Lunzi\\TopAuth\\Service"
+            ]
+        }
+    }
+}
