@@ -5,6 +5,7 @@ namespace Lunzi\TopAuth;
 use Closure;
 use InvalidArgumentException;
 use Lunzi\TopAuth\Guards\SessionGuard;
+use Lunzi\TopAuth\Providers\DbUserProvider;
 use Lunzi\TopAuth\Providers\ModelUserProvider;
 
 class AuthManager
@@ -71,14 +72,26 @@ class AuthManager
 
     /**
      * 创建基于 Session 的看守器驱动
-     *
-     * @param  string  $name
-     * @param  array  $config
+     * @param $name
+     * @param $config
+     * @return SessionGuard
+     * @throws \think\Exception
      */
     public function createSessionDriver($name, $config)
     {
         $providerConfig = config("topauth.providers.{$config['provider']}");
-        $provider = new ModelUserProvider($providerConfig['model']);
+        switch ($providerConfig['driver']) {
+            case 'db':
+                $provider = new DbUserProvider($providerConfig['table']);
+                break;
+            case 'model':
+                $provider = new ModelUserProvider($providerConfig['model']);
+                break;
+            default:
+                throw new \think\Exception(
+                    "用户提供者驱动 [{$providerConfig['driver']}] 未定义"
+                );
+        }
 
         $guard = new SessionGuard($name, $provider);
 
