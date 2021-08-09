@@ -1,0 +1,18 @@
+CREATE TABLE `{{table_name}}`
+(
+    `id`             int(11)   NOT NULL AUTO_INCREMENT,
+    `username`       varchar(255)       DEFAULT NULL,
+    `email`          varchar(255)       DEFAULT NULL,
+    `mobile`         varchar(255)       DEFAULT NULL,
+    `password`       varchar(100)       DEFAULT NULL,
+    `remember_token` varchar(100)       DEFAULT NULL,
+    `nickname`       varchar(255)       DEFAULT NULL,
+    `create_time`    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `update_time`    timestamp NULL     DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `{{table_name}}_username_index` (`username`),
+    KEY `{{table_name}}_email_index` (`email`),
+    KEY `{{table_name}}_mobile_index` (`mobile`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 2
+  DEFAULT CHARSET = utf8;

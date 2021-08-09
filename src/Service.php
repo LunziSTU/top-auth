@@ -2,6 +2,8 @@
 
 namespace Lunzi\TopAuth;
 
+use Lunzi\TopAuth\Commands\Install;
+use Lunzi\TopAuth\Commands\Table;
 use think\Service as BaseService;
 
 class Service extends BaseService
@@ -9,6 +11,11 @@ class Service extends BaseService
     public function boot()
     {
         $this->loadConfig();
+//        注册指令
+        $this->commands([
+            'topauth:install' => Install::class,
+            'topauth:table' => Table::class,
+        ]);
     }
 
     /**
