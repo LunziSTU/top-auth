@@ -19,6 +19,9 @@ class Authenticate
         $route = $request->controller(1) . '/' . $request->action(1);
 
         if ( ! in_array($route, $this->withoutAuthRoute()) && ! Auth::guard($guard)->check() ) {
+            if ($request->isAjax() || $request->isJson()) {
+                abort(401);
+            }
             return $this->redirectTo();
         }
         return $next($request);

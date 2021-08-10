@@ -4,6 +4,7 @@ namespace Lunzi\TopAuth;
 
 use Closure;
 use InvalidArgumentException;
+use Lunzi\TopAuth\Guards\JWTGuard;
 use Lunzi\TopAuth\Guards\SessionGuard;
 use Lunzi\TopAuth\Providers\DbUserProvider;
 use Lunzi\TopAuth\Providers\ModelUserProvider;
@@ -94,6 +95,33 @@ class AuthManager
         }
 
         $guard = new SessionGuard($name, $provider);
+
+        return $guard;
+    }
+
+    /**
+     * 创建 JWT 驱动
+     * @param $name
+     * @param $config
+     * @return JWTGuard
+     * @throws \think\Exception
+     */
+    public function createJWTDriver($name, $config)
+    {
+        $providerConfig = config("topauth.providers.{$config['provider']}");
+        switch ($providerConfig['driver']) {
+            case 'db':
+                $provider = new DbUserProvider($providerConfig['table']);
+                break;
+            case 'model':
+                $provider = new ModelUserProvider($providerConfig['model']);
+                break;
+            default:
+                throw new \think\Exception(
+                    "用户提供者驱动 [{$providerConfig['driver']}] 未定义"
+                );
+        }
+        $guard = new JWTGuard(new JWT(), $provider);
 
         return $guard;
     }
