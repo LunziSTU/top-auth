@@ -2,6 +2,8 @@
 
 namespace Lunzi\TopAuth\Guards;
 
+use Lunzi\TopAuth\Contracts\StatefulGuard;
+use Lunzi\TopAuth\Contracts\SupportsBasicAuth;
 use Lunzi\TopAuth\Recaller;
 use Lunzi\TopAuth\Contracts\UserProvider;
 use Lunzi\TopAuth\GuardHelpers;
@@ -19,12 +21,6 @@ class SessionGuard
      * @var string
      */
     protected $name;
-
-    /**
-     * 当前认证用户
-     * @var
-     */
-    protected $user;
 
     /**
      * 是否已调用注销方法
@@ -93,15 +89,6 @@ class SessionGuard
     }
 
     /**
-     * 判断当前用户是否登录
-     * @return bool
-     */
-    public function check()
-    {
-        return ! is_null($this->user());
-    }
-
-    /**
      * 登录
      * @param AuthenticatableContract $user
      * @param false $remember
@@ -134,20 +121,6 @@ class SessionGuard
         $this->user = null;
 
         $this->loggedOut = true;
-    }
-
-    /**
-     * 设置当前用户
-     * @param $user
-     * @return $this
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        $this->loggedOut = false;
-
-        return $this;
     }
 
     /**

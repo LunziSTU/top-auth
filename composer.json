@@ -22,5 +22,8 @@
                 "Lunzi\\TopAuth\\Service"
             ]
         }
+    },
+    "suggest": {
+        "firebase/php-jwt": "Required to user the JWT driver."
     }
 }
